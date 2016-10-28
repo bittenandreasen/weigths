@@ -25,3 +25,5 @@ class Users(Base):
     max_allowed_weight = Column(Integer, nullable=False)
     goal = Column(Integer, nullable=False)
     next_goal = Column(Integer, nullable=False)
+    email_address = Column(String, nullable=False)
+    height_in_cm = Column(Integer, nullable=False)

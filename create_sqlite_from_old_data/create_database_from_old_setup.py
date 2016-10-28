@@ -64,11 +64,16 @@ def insert_user_data():
     bit = Users(user='Bitten',
                 max_allowed_weight=88,
                 goal=60,
-                next_goal=87)
+                next_goal=87,
+                email_address='bittenandreasen@gmail.com',
+                height_in_cm=168,
+                )
     seb = Users(user='Sebastian',
                 max_allowed_weight=90,
                 goal=63,
-                next_goal=89
+                next_goal=89,
+                email_address='erwin@andreasen.org',
+                height_in_cm=182,
                 )
     with get_session_manager() as session_manager:
         session_manager.add(bit)

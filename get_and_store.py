@@ -36,4 +36,4 @@ def get_data_from_withings():
 def get_and_store_data_from_withings():
     withings_data = get_data_from_withings()
     for measure in withings_data:
-        print measure
+        print(measure)
