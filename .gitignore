@@ -2,3 +2,5 @@
 *local.cfg
 *.sqlite
 *secret*
+__pycache__
+withings.html
