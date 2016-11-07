@@ -4,7 +4,6 @@ import os
 from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from string import strip
 
 from weights_db_definitions import Comments, Weights, Base, Users
 
@@ -31,27 +30,29 @@ def create_database():
 
 def insert_old_data():
     with get_session_manager() as session_manager:
-        cfg_files = glob.glob('*.cfg')
+        cfg_files = glob.glob('create_sqlite_from_old_data/*.cfg')
         for cfg_file in cfg_files:
-            with open(cfg_file, 'rb') as fh:
+            with open(cfg_file, 'r') as fh:
                 cfg_buffer = fh.readlines()
             cfg_buffer = [l.split(';') for l in cfg_buffer]
-            if cfg_file == 'comments.cfg':
-                print 'Parsing comments: ', cfg_file, len(cfg_buffer)
+            if cfg_file == 'create_sqlite_from_old_data/comments.cfg':
+                print('Parsing comments: ', cfg_file, len(cfg_buffer))
                 for date, comment in cfg_buffer:
-                    comment = strip(comment)
+                    comment = comment.replace('\n', '')
                     date = datetime.datetime.strptime(date, '%Y-%m-%d')
-                    print date, comment
+                    print(date, comment)
                     comment_entry = Comments(comment=comment,
                                              date=date)
                     session_manager.add(comment_entry)
             else:
                 if cfg_file.find('bit.cfg') != -1: user = 'Bitten'
                 else: user = 'Sebastian'
-                print 'Parsing user data: ', user, cfg_file, len(cfg_buffer)
+                print('Parsing user data: ', user, cfg_file, len(cfg_buffer))
+                for c in cfg_buffer:
+                    print(c)
                 for date, weight, is_withings_weight, average_weight, weight_loss in cfg_buffer:
                     if date < '2011-12-21' or is_withings_weight == 'True ':
-                        print user, date, weight, is_withings_weight
+                        print(user, date, weight, is_withings_weight)
                         date = datetime.datetime.strptime(date, '%Y-%m-%d')
                         weigth_entry = Weights(user=user,
                                                date=date,
@@ -81,9 +82,10 @@ def insert_user_data():
         session_manager.commit()
 
 
-create_database()
-print 'created db with table definitions'
-insert_old_data()
-print 'done with inserts'
-insert_user_data()
-print 'initialized user data'
+def main():
+    create_database()
+    print('created db with table definitions')
+    insert_old_data()
+    print('done with inserts')
+    insert_user_data()
+    print('initialized user data')

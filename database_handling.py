@@ -70,7 +70,7 @@ def update_sqlite_with_data_from_withings(withings_data):
         for user in withings_data:
             for date in withings_data[user]:
                 if not has_weight(user, date):
-                    print user, date, withings_data[user][date], has_weight(user, date)
+                    print(user, date, withings_data[user][date], has_weight(user, date))
                     add_weight(user, withings_data[user][date], date)
         session_manager.commit()
 

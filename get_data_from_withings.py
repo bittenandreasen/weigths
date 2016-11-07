@@ -1,6 +1,7 @@
-import ConfigParser
+import configparser
 import datetime
 import urllib
+from urllib.request import urlopen
 
 import simplejson
 
@@ -8,7 +9,7 @@ WITHINGS_URL = "http://wbsapi.withings.net/measure?action=getmeas&userid={user_i
 
 
 def get_user_configuration():
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(['config_local.cfg'])
     users = config.get('WITHINGS', 'users').split(',')
     user_ids = config.get('WITHINGS', 'user_ids').split(',')
@@ -26,7 +27,7 @@ def get_data_from_withings():
             user_id=user_id,
             user_public_key=user_public_key
         )
-        data = simplejson.loads(urllib.urlopen(url_to_get_info_from_withings).read())
+        data = simplejson.loads(urlopen(url_to_get_info_from_withings).read())
         for measure in data['body']['measuregrps']:
             if measure['category'] == 1:
                 for m in measure['measures']:

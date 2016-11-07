@@ -261,6 +261,6 @@ def get_html_buffer():
 
 def create_html_page():
     html_buffer = get_html_buffer()
-    print html_buffer
+    #print(html_buffer)
     with open('withings.html', 'w') as fh:
         fh.write(html_buffer)

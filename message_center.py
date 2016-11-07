@@ -29,7 +29,7 @@ def check_for_goals_reached(user):
 
 
 def check_for_enough_weighings(user):
-    min_weights = 3
+    min_weights = 2
     min_weights_days = 7
     end_date = datetime.datetime.now()
     start_date = end_date - datetime.timedelta(days=min_weights_days)
@@ -75,15 +75,15 @@ def check_maximum_weight(user):
 def message_center():
     gmail_service = get_gmail_service()
     users = config.get('WITHINGS', 'users').split(',')
-    for user in ['Bitten']:  #users:
+    for user in ['Bitten']:
         email_body = ''
         email_body += check_for_enough_weighings(user)
         email_body += check_for_goals_reached(user)
         email_body += check_maximum_weight(user)
         if email_body:
             user_email_address = get_email_address(user)
-            print 'Sending email to user: ', user, user_email_address
-            print email_body
+            print('Sending email to user: ', user, user_email_address)
+            print(email_body)
             email_message = create_message(user_email_address, 'Message from weights.', email_body)
-            print email_message
+            print(email_message)
             send_message(gmail_service, email_message)

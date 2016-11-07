@@ -1,0 +1,3 @@
+from create_sqlite_from_old_data.create_database_from_old_setup import main
+
+main()
